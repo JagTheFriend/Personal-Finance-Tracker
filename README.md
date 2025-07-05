@@ -1,15 +1,30 @@
 # Personal Finance Visualizer
 
-A comprehensive personal finance tracking application built with Next.js, React, and modern web technologies. This application provides transaction management capabilities with data visualization and comprehensive financial insights.
+A comprehensive personal finance tracking application built with Next.js, React, and modern web technologies. This application provides complete financial management capabilities including transaction tracking, categorization, budgeting, and intelligent insights with advanced data visualization.
 
 ## Features
 
+### Stage 1 - Basic Transaction Tracking
 - **Transaction Management**: Add, edit, and delete transactions with comprehensive form validation
 - **Transaction List**: View all transactions with search functionality and type filtering
 - **Monthly Visualization**: Interactive bar chart showing monthly income versus expenses
 - **Summary Dashboard**: Real-time summary cards displaying total income, expenses, net income, and transaction count
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Local Storage**: Persistent data storage without requiring authentication
+
+### Stage 2 - Categories
+- **Predefined Categories**: Comprehensive category systems for both income and expenses
+- **Category-wise Pie Chart**: Interactive pie chart showing expense breakdown by category with percentages
+- **Enhanced Dashboard**: Dashboard summary featuring recent transactions and top expense categories
+- **Smart Category Selection**: Transaction form automatically updates categories based on transaction type
+- **Category Analytics**: Detailed analysis of spending patterns across different categories
+
+### Stage 3 - Budgeting
+- **Budget Management**: Set and manage monthly budgets for each expense category
+- **Budget vs Actual Comparison**: Interactive bar chart comparing budgeted amounts to actual spending
+- **Spending Insights**: Intelligent insights system providing personalized financial advice and alerts
+- **Budget Tracking**: Visual progress indicators showing budget utilization percentages
+- **Financial Recommendations**: Automated suggestions for budget optimization and spending improvements
 
 ## Technology Stack
 
@@ -23,12 +38,12 @@ A comprehensive personal finance tracking application built with Next.js, React,
 
 ## Design Architecture
 
-- **Modern Interface**: Clean, professional design with subtle animations
-- **Color System**: Sophisticated palette with proper contrast ratios
+- **Modern Interface**: Clean, professional design with subtle animations and micro-interactions
+- **Color System**: Sophisticated palette with proper contrast ratios and accessibility compliance
 - **Typography**: Inter font with proper hierarchy and spacing
-- **Micro-interactions**: Smooth hover effects and transitions
-- **Visual Feedback**: Real-time form validation and loading states
-- **Accessibility**: Proper ARIA labels and keyboard navigation support
+- **Visual Feedback**: Real-time form validation, loading states, and interactive elements
+- **Accessibility**: Proper ARIA labels, keyboard navigation support, and screen reader compatibility
+- **Responsive Layout**: Optimized for all device sizes with mobile-first approach
 
 ## Installation
 
@@ -53,21 +68,34 @@ A comprehensive personal finance tracking application built with Next.js, React,
 
 ## Usage Guide
 
-### Adding Transactions
-1. Complete the transaction form with amount, date, description, and type
-2. Click "Add Transaction" to save the entry
-3. View the transaction in the list below
-
 ### Managing Transactions
-- **Edit**: Click the edit icon on any transaction to modify details
-- **Delete**: Click the trash icon to remove a transaction
-- **Search**: Use the search functionality to find specific transactions
-- **Filter**: Filter transactions by type (All, Income, Expenses)
+1. **Adding Transactions**: Complete the transaction form with amount, date, description, type, and category
+2. **Editing Transactions**: Click the edit icon on any transaction to modify details
+3. **Deleting Transactions**: Click the trash icon to remove a transaction
+4. **Search and Filter**: Use search functionality and type filters to find specific transactions
 
-### Viewing Analytics
-- **Summary Cards**: Overview of financial status displayed at the top
-- **Monthly Chart**: Visual representation of income versus expenses by month
-- **Transaction History**: Complete transaction list with sorting and filtering capabilities
+### Category Management
+- **Expense Categories**: Food & Dining, Transportation, Shopping, Entertainment, Bills & Utilities, Healthcare, Education, Travel, Home & Garden, Personal Care, Gifts & Donations, Business, Other
+- **Income Categories**: Salary, Freelance, Business, Investments, Rental, Gifts, Refunds, Other
+- **Category Analytics**: View spending breakdown by category in the interactive pie chart
+
+### Budget Planning
+1. **Setting Budgets**: Navigate to the Budgets tab and set monthly limits for each expense category
+2. **Tracking Progress**: Monitor budget utilization through the comparison chart
+3. **Budget Alerts**: Receive automatic notifications when approaching or exceeding budget limits
+4. **Budget Management**: Edit or delete existing budgets as needed
+
+### Dashboard Analytics
+- **Summary Cards**: Overview of total income, expenses, net income, and transaction count
+- **Recent Transactions**: Quick view of the latest financial activities
+- **Top Categories**: Identification of highest spending categories
+- **Monthly Trends**: Visual representation of income and expense patterns over time
+
+### Insights and Recommendations
+- **Budget Alerts**: Notifications for budget overruns and approaching limits
+- **Spending Patterns**: Analysis of category-wise spending behavior
+- **Savings Rate**: Calculation and feedback on savings performance
+- **Financial Health**: Overall assessment of financial management effectiveness
 
 ## Project Structure
 
@@ -75,19 +103,25 @@ A comprehensive personal finance tracking application built with Next.js, React,
 ├── app/
 │   ├── globals.css          # Global styles and Tailwind configuration
 │   ├── layout.tsx           # Root layout component
-│   └── page.tsx             # Main application page
+│   └── page.tsx             # Main application page with tabbed interface
 ├── components/
 │   ├── ui/                  # shadcn/ui components
-│   ├── monthly-expenses-chart.tsx
-│   ├── summary-cards.tsx
-│   ├── transaction-form.tsx
-│   └── transaction-list.tsx
+│   ├── budget-comparison-chart.tsx    # Budget vs actual spending visualization
+│   ├── budget-form.tsx               # Budget creation and editing form
+│   ├── category-pie-chart.tsx        # Category-wise expense breakdown
+│   ├── dashboard-summary.tsx         # Dashboard overview components
+│   ├── monthly-expenses-chart.tsx    # Monthly financial overview
+│   ├── spending-insights.tsx         # Intelligent financial insights
+│   ├── summary-cards.tsx            # Financial summary metrics
+│   ├── transaction-form.tsx         # Transaction management form
+│   └── transaction-list.tsx         # Transaction history display
 ├── lib/
-│   ├── transaction-storage.ts    # Local storage utilities
-│   ├── transaction-utils.ts      # Helper functions
-│   └── utils.ts                  # General utilities
+│   ├── budget-storage.ts            # Budget data persistence
+│   ├── transaction-storage.ts       # Transaction data persistence
+│   ├── transaction-utils.ts         # Financial calculation utilities
+│   └── utils.ts                     # General utilities
 ├── types/
-│   └── transaction.ts            # TypeScript type definitions
+│   └── transaction.ts               # TypeScript type definitions
 └── README.md
 ```
 
@@ -95,27 +129,39 @@ A comprehensive personal finance tracking application built with Next.js, React,
 
 ### TransactionForm
 - Comprehensive form validation with real-time error feedback
+- Dynamic category selection based on transaction type
 - Support for both adding and editing transactions
 - Responsive design with accessibility features
-- Input sanitization and data validation
 
-### TransactionList
-- Advanced search and filtering capabilities
-- Smooth animations and interactive elements
-- Mobile-optimized responsive layout
-- Efficient rendering for large datasets
+### CategoryPieChart
+- Interactive Recharts-based pie chart visualization
+- Custom tooltips showing amounts and percentages
+- Color-coded category representation
+- Responsive design with proper empty state handling
 
-### MonthlyExpensesChart
-- Interactive Recharts-based visualization
-- Custom tooltips and professional styling
-- Responsive chart sizing and layout
-- Proper handling of empty states
+### BudgetForm
+- Monthly budget setting for expense categories
+- Form validation and error handling
+- Month selection with future month options
+- Integration with existing budget data
 
-### SummaryCards
-- Real-time financial metrics calculation
-- Color-coded visual indicators
-- Responsive grid layout
-- Performance-optimized updates
+### BudgetComparisonChart
+- Visual comparison of budgeted vs actual spending
+- Color-coded status indicators (under, on-track, over)
+- Interactive tooltips with detailed information
+- Responsive chart layout
+
+### SpendingInsights
+- Intelligent analysis of spending patterns
+- Automated budget alerts and recommendations
+- Categorized insights (warning, success, info)
+- Personalized financial advice
+
+### DashboardSummary
+- Recent transaction overview
+- Top spending categories analysis
+- Real-time data updates
+- Mobile-optimized layout
 
 ## Configuration
 
@@ -136,11 +182,26 @@ A comprehensive personal finance tracking application built with Next.js, React,
 ### Code Standards
 - TypeScript strict mode enabled
 - ESLint configuration for code quality
-- Consistent component structure
-- Proper error handling implementation
+- Consistent component structure and naming
+- Comprehensive error handling implementation
+- Modular architecture with clear separation of concerns
 
 ### Performance Considerations
-- Optimized bundle size
-- Efficient state management
+- Optimized bundle size with tree shaking
+- Efficient state management with minimal re-renders
 - Lazy loading where applicable
-- Minimal re-renders
+- Optimized chart rendering with proper data handling
+
+### Data Management
+- Local storage for persistent data without authentication
+- Efficient data structures for financial calculations
+- Real-time updates across all components
+- Data validation and sanitization
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/feature-name`)
+3. Commit changes with descriptive messages
+4. Push to the feature branch
+5. Submit a Pull Request with detailed description

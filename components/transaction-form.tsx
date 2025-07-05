@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, X } from 'lucide-react';
-import { TransactionFormData, Transaction } from '@/types/transaction';
+import { TransactionFormData, Transaction, EXPENSE_CATEGORIES, INCOME_CATEGORIES } from '@/types/transaction';
 
 interface TransactionFormProps {
   onSubmit: (data: TransactionFormData) => void;
@@ -23,6 +23,7 @@ export function TransactionForm({ onSubmit, initialData, onCancel, isEditing = f
     date: initialData?.date || new Date().toISOString().split('T')[0],
     description: initialData?.description || '',
     type: initialData?.type || 'expense',
+    category: initialData?.category || '',
   });
 
   const [errors, setErrors] = useState<Partial<TransactionFormData>>({});
@@ -42,6 +43,10 @@ export function TransactionForm({ onSubmit, initialData, onCancel, isEditing = f
       newErrors.description = 'Description is required';
     }
 
+    if (!formData.category) {
+      newErrors.category = 'Category is required';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -57,6 +62,7 @@ export function TransactionForm({ onSubmit, initialData, onCancel, isEditing = f
           date: new Date().toISOString().split('T')[0],
           description: '',
           type: 'expense',
+          category: '',
         });
       }
     }
@@ -71,6 +77,16 @@ export function TransactionForm({ onSubmit, initialData, onCancel, isEditing = f
       }
     }
   };
+
+  const handleTypeChange = (type: 'income' | 'expense') => {
+    setFormData(prev => ({ 
+      ...prev, 
+      type, 
+      category: '' // Reset category when type changes
+    }));
+  };
+
+  const categories = formData.type === 'expense' ? EXPENSE_CATEGORIES : INCOME_CATEGORIES;
 
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-lg border-0 bg-white">
@@ -122,24 +138,48 @@ export function TransactionForm({ onSubmit, initialData, onCancel, isEditing = f
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="type" className="text-sm font-medium text-gray-700">
-              Type
-            </Label>
-            <Select
-              value={formData.type}
-              onValueChange={(value: 'income' | 'expense') => 
-                setFormData(prev => ({ ...prev, type: value }))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="expense">Expense</SelectItem>
-                <SelectItem value="income">Income</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="type" className="text-sm font-medium text-gray-700">
+                Type
+              </Label>
+              <Select
+                value={formData.type}
+                onValueChange={handleTypeChange}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="expense">Expense</SelectItem>
+                  <SelectItem value="income">Income</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="category" className="text-sm font-medium text-gray-700">
+                Category
+              </Label>
+              <Select
+                value={formData.category}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
+              >
+                <SelectTrigger className={errors.category ? 'border-red-500' : ''}>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.category && (
+                <p className="text-red-500 text-xs mt-1">{errors.category}</p>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
